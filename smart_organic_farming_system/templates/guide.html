@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}{{ profile.name }} Organic Crop Guide{% endblock %}
+{% block content %}
+<section class="result-top"><a class="back-link" href="{{ url_for('home') }}">← Back to home</a><span class="eyebrow">Organic crop guide</span><h1>{{ profile.name }}</h1><p>{{ profile.climate }}</p></section>
+<section class="guide-layout">
+ <article class="guide-detail"><h2>🌱 Suitable soil</h2><p>{{ profile.soil }}</p></article>
+ <article class="guide-detail"><h2>🗓️ Growing season</h2><p>{{ profile.season }}</p></article>
+ <article class="guide-detail"><h2>💧 Water needs</h2><p>{{ profile.water }}</p></article>
+ <article class="guide-detail"><h2>♻️ Organic fertilizers</h2><p>{{ profile.fertilizer }}</p></article>
+ <article class="guide-detail"><h2>🐛 Organic pest management</h2><p>{{ profile.pest_control }}</p></article>
+ <article class="guide-detail"><h2>🚿 Irrigation</h2><p>{{ profile.irrigation }}</p></article>
+ <article class="guide-detail"><h2>🌾 Harvesting</h2><p>{{ profile.harvesting }}</p></article>
+</section><p class="guide-disclaimer">Guidance is general and educational. Confirm variety-specific practices, pest identification and input recommendations with local agricultural experts.</p>
+{% endblock %}

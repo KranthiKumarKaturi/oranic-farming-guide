@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% block title %}Smart Organic Farming Advisor{% endblock %}
+{% block content %}
+<section class="hero">
+ <div class="hero-copy"><span class="eyebrow">A practical assistant for farmers</span><h1>Is your crop right for your land?</h1>
+ <p>Enter the crop you want to grow, tell us where your farm is, and share your soil and water conditions. Get a preliminary suitability check and crop-specific organic farming guidance.</p>
+ <div class="hero-points"><span>✓ Crop suitability check</span><span>✓ Organic pest management</span><span>✓ Organic fertilizer guidance</span></div></div>
+ <div class="hero-art"><div class="sun"></div><div class="field field-one"></div><div class="field field-two"></div><div class="field field-three"></div><div class="plant">🌾</div></div>
+</section>
+<section class="form-section" id="check">
+ <div class="section-heading"><span class="eyebrow">Start your crop check</span><h2>Tell us about your farm</h2><p>Required details help us compare the crop with broad growing conditions. Photos are optional supporting references.</p></div>
+ <form class="farm-form" action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data">
+  <div class="form-grid">
+   <div class="field"><label for="crop_name">1. Which crop do you want to grow? *</label><select id="crop_name" name="crop_name" required><option value="">Select a crop</option>{% for crop in crop_names %}<option>{{ crop }}</option>{% endfor %}</select></div>
+   <div class="field"><label for="location">2. Farm location (village / town / district) *</label><input id="location" name="location" required placeholder="e.g. Vijayawada, Andhra Pradesh"><small>Use a specific village, town or district name.</small></div>
+   <div class="field"><label for="soil">3. Soil type *</label><select id="soil" name="soil" required><option value="">Select soil type</option><option value="clayey">Clayey</option><option value="loamy">Loamy</option><option value="sandy">Sandy</option><option value="black">Black soil</option><option value="red">Red soil</option><option value="unknown">Not sure</option></select></div>
+   <div class="field"><label for="season">4. When do you plan to sow? *</label><select id="season" name="season" required><option value="">Select season</option><option value="kharif">Kharif / Monsoon</option><option value="rabi">Rabi / Winter</option><option value="summer">Summer</option><option value="unknown">Not sure</option></select></div>
+   <div class="field"><label for="water">5. Water availability *</label><select id="water" name="water" required><option value="">Select availability</option><option value="adequate">Adequate water / irrigation</option><option value="limited">Limited water</option><option value="unknown">Not sure</option></select></div>
+   <div class="field"><label for="notes">Additional details (optional)</label><input id="notes" name="notes" placeholder="e.g. soil test result, previous crop, concerns"></div>
+  </div>
+  <div class="upload-grid">
+   <div class="upload-card"><div class="upload-icon">📷</div><label for="land_image">Optional: Upload land / soil photo</label><input type="file" id="land_image" name="land_image" accept=".jpg,.jpeg,.png,.webp"><small>JPG, PNG or WEBP; maximum 8 MB.</small><div class="preview" id="landPreview"></div></div>
+   <div class="upload-card"><div class="upload-icon">🌿</div><label for="plant_image">Optional: Upload crop / plant photo</label><input type="file" id="plant_image" name="plant_image" accept=".jpg,.jpeg,.png,.webp"><small>JPG, PNG or WEBP; maximum 8 MB.</small><div class="preview" id="plantPreview"></div></div>
+  </div>
+  <p class="photo-note"><strong>Photo note:</strong> Photos are saved with this assessment for reference. This version does not automatically diagnose soil nutrients or identify diseases from images.</p>
+  <button class="primary-btn" type="submit">Check Crop Suitability <span>→</span></button>
+ </form>
+</section>
+<section class="how-section"><div class="section-heading"><span class="eyebrow">Simple process</span><h2>How the advisor works</h2></div><div class="steps">
+ <article><b>01</b><h3>Enter crop & location</h3><p>Tell the advisor which crop you plan to grow and where your farm is located.</p></article>
+ <article><b>02</b><h3>Share farm conditions</h3><p>Select soil type, sowing season and available water. Add photos if useful.</p></article>
+ <article><b>03</b><h3>Get your guidance</h3><p>See suitability factors, possible concerns, organic fertilizer and pest-management guidance.</p></article>
+</div></section>
+<script>
+function preview(inputId, boxId) {
+ const input=document.getElementById(inputId), box=document.getElementById(boxId);
+ input.addEventListener('change',()=>{
+  box.innerHTML='';
+  const file=input.files[0]; if(!file) return;
+  if(file.size>8*1024*1024){alert('Image must be smaller than 8 MB.');input.value='';return;}
+  const img=document.createElement('img'); img.alt='Selected image preview'; img.src=URL.createObjectURL(file); box.appendChild(img);
+ });
+}
+preview('land_image','landPreview'); preview('plant_image','plantPreview');
+</script>
+{% endblock %}

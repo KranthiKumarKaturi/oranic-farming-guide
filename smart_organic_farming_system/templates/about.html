@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}How It Works{% endblock %}
+{% block content %}
+<section class="result-top"><span class="eyebrow">About the project</span><h1>How Smart Organic Farming Advisor works</h1><p>A simple decision-support tool for preliminary crop suitability screening.</p></section>
+<section class="about-content"><h2>What information is checked?</h2><ul><li>Crop profile and its commonly suitable soil types.</li><li>Broad growing season information.</li><li>Water requirement compared with the farmer's water availability.</li><li>Farm location entered by the user, shown in the assessment for context.</li></ul>
+<h2>What does the result mean?</h2><p>The score is a transparent rule-based match, not an AI prediction, soil test or guarantee of crop yield. It does not currently fetch live weather or geospatial soil data.</p>
+<h2>What about uploaded photos?</h2><p>Land/soil and crop photos can be attached to an assessment and viewed on the result page. Automatic image recognition is not implemented in this version.</p>
+<h2>How can a farmer improve the assessment?</h2><p>Use a laboratory soil test for pH, electrical conductivity and nutrients; confirm local rainfall, irrigation and sowing dates; and consult the local agriculture department or extension officer.</p></section>
+{% endblock %}

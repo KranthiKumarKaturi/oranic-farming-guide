@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% block title %}Crop Suitability Result{% endblock %}
+{% block content %}
+<section class="result-top"><a class="back-link" href="{{ url_for('home') }}">← New crop check</a><span class="eyebrow">Your farming assessment</span><h1>{{ crop_name }} in {{ location }}</h1><p>Based on the farm details you provided.</p></section>
+<section class="result-layout">
+ <div class="result-main">
+  <div class="verdict {{ result.level }}"><div><span class="verdict-label">Preliminary suitability</span><h2>{{ result.status }}</h2><p>Rule-based match score: {{ result.score }}/100</p></div><div class="score-ring"><strong>{{ result.score }}</strong><small>/100</small></div></div>
+  <div class="panel"><h2>Why this result?</h2><ul class="reason-list">{% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}</ul>{% if result.warnings %}<h3 class="warning-heading">Things to check</h3><ul class="warning-list">{% for warning in result.warnings %}<li>{{ warning }}</li>{% endfor %}</ul>{% endif %}</div>
+  {% if result.status.startswith('Suitable') or result.status.startswith('Potentially') %}
+  <div class="panel"><div class="panel-title"><span>🌿</span><div><h2>Organic farming guidance for {{ crop_name }}</h2><p>Crop-specific starting points. Follow local recommendations.</p></div></div>
+   <div class="advice-item"><span>🌱</span><div><h3>Organic fertilizers</h3><p>{{ profile.fertilizer }}</p></div></div>
+   <div class="advice-item"><span>🐛</span><div><h3>Organic pest management</h3><p>{{ profile.pest_control }}</p></div></div>
+   <div class="advice-item"><span>💧</span><div><h3>Irrigation guidance</h3><p>{{ profile.irrigation }}</p></div></div>
+   <div class="advice-item"><span>🌾</span><div><h3>Harvesting guidance</h3><p>{{ profile.harvesting }}</p></div></div>
+  </div>
+  {% endif %}
+  {% if alternatives %}<div class="panel"><h2>Other crops to consider</h2><p class="muted">These are possible alternatives based on the same simple soil, season and water filters.</p><div class="alternatives">{% for item in alternatives %}<div><strong>{{ item.name }}</strong><span>{{ item.status }}</span></div>{% endfor %}</div></div>{% endif %}
+  <div class="disclaimer"><strong>Important:</strong> {{ result.disclaimer }}</div>
+ </div>
+ <aside class="side-panel"><h3>Your submitted details</h3><dl><dt>Crop</dt><dd>{{ crop_name }}</dd><dt>Location</dt><dd>{{ location }}</dd><dt>Soil</dt><dd>{{ soil|title }}</dd><dt>Season</dt><dd>{{ season|title }}</dd><dt>Water</dt><dd>{{ water|title }}</dd></dl>
+ {% if land_image %}<p class="image-label">Land / soil photo</p><img class="uploaded-image" src="{{ url_for('static',filename='uploads/'+land_image) }}" alt="Uploaded land or soil photo">{% endif %}
+ {% if plant_image %}<p class="image-label">Crop / plant photo</p><img class="uploaded-image" src="{{ url_for('static',filename='uploads/'+plant_image) }}" alt="Uploaded crop or plant photo">{% endif %}
+ <a class="outline-btn" href="{{ url_for('crop_guide',crop_name=crop_name) }}">View full crop guide</a>
+ </aside>
+</section>
+{% endblock %}
